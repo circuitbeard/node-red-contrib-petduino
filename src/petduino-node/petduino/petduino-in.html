@@ -1,0 +1,63 @@
+<!--
+# Copyright (c) 2015, Matt Brailsford, aka Circuitbeard <hi@circuitveard.co.uk>   
+#  
+# Permission to use, copy, modify, and/or distribute this software for  
+# any purpose with or without fee is hereby granted, provided that the  
+# above copyright notice and this permission notice appear in all copies.  
+#  
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL  
+# WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED  
+# WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR  
+# BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES  
+# OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,  
+# WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,  
+# ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS  
+# SOFTWARE. 
+-->
+
+<script type="text/x-red" data-template-name="petduino-in">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name" />
+    </div>
+	<div class="form-row">
+        <label for="node-input-event"><i class="fa fa-tasks"></i> Event</label>
+        <select id="node-input-event" style="width:72%;">
+			<option value="0">State</option>
+			<option value="1">LED</option>
+            <option value="2">Temperature</option>
+            <option value="3">Light Level</option>
+			<option value="4">Btn 1</option>
+            <option value="5">Btn 2</option>
+        </select>
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="petduino-in">
+    <p>This node listens for the Petduino events and parses any payload values.</p>
+	<p><b>Usage</b></p>
+	<p></p>
+	<p>Select the event to be notified of from the <i>Event</i> dropdown list.<br />The <b>msg.payload</b> contains the parsed event data.<br />The <b>msg.raw</b> contains the raw event data.</p>
+    <p>For further info see the <a href="https://circuitbeard.co.uk" target="_blank">Circuitbeard website</a>.</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('petduino-in',{
+        category: 'petduino',
+        defaults: {
+            name: {value:""},
+			event: {value:0, required: true}
+        },
+        color: "#1abc9c",
+        inputs: 1,
+        outputs: 1,
+        icon: "arrow.png",
+        paletteLabel: "event",
+        label: function() {
+            return this.name || "event";
+        },
+        labelStyle: function() {
+            return this.name ? "node_label_italic": "";
+        }
+    });
+</script>

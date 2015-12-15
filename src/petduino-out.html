@@ -21,6 +21,13 @@
         <input type="text" id="node-input-name" placeholder="Name" />
     </div>
     <div class="form-row">
+        <label for="node-input-format"><i class="fa fa-tasks"></i> Format</label>
+        <select id="node-input-format" style="width:72%;">
+            <option value="serial">Serial</option>
+            <option value="json">JSON</option>
+        </select>
+    </div>
+    <div class="form-row">
         <label for="node-input-action"><i class="fa fa-tasks"></i> Action</label>
         <select id="node-input-action" style="width:72%;">
             <option value="0">Set State</option>
@@ -40,10 +47,8 @@
 </script>
 
 <script type="text/x-red" data-help-name="petduino-out">
-    <p>This node broadcasts Petduino actions, sending the given payload.</p>
-	<p><b>Usage</b></p>
-	<p></p>
-	<p>Select the action to broadcast from the <i>Action</i> dropdown list.<br />
+    <p>This node constructs a Petduino action payload object.</p>
+	<p>Select the output format from the <i>Format</i> dropdown and the action to broadcast from the <i>Action</i> dropdown.<br />
     Set the <i>Value</i> input to the value you wish to broadcast, or leave blank to send the passed in <b>msg.payload</b>.</p>
     <p>For further info see the <a href="https://circuitbeard.co.uk" target="_blank">Circuitbeard website</a>.</p>
 </script>
@@ -53,6 +58,7 @@
         category: 'petduino',
         defaults: {
             name: {value:""},
+            format: {value:"serial"},
             action: {value:"0", required: true},
             value: {value:"" }
         },
@@ -61,9 +67,9 @@
         outputs: 1,
         icon: "arrow.png",
         align: "right",
-        paletteLabel: "action",
+        paletteLabel: "pet-action",
         label: function() {
-            return this.name || "action";
+            return this.name || "pet-action";
         },
         labelStyle: function() {
             return this.name ? "node_label_italic" : "";

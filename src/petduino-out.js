@@ -1,17 +1,58 @@
 module.exports = function(RED) {
 
+	var petduino_action_names = [
+		"setState",
+		"getState",
+		"setLed",
+		"toggleLed",
+		"getLed",
+		"getTemperature",
+		"getLightLevel",
+		"setData"
+	];
+
 	function PetduinoOut(n) {
 
         RED.nodes.createNode(this,n);
 		
 		var _self 	 = this;
 		
+		_self.format = n.format;
 		_self.action = parseInt(n.action);
 		_self.value  = n.value;
-		
-		this.on("input", function(msg){
+
+		_self.sendSerialAction = function(msg, value){
 
 			var cmd   = _self.action;
+			
+			if(value){
+				cmd += "," + value;
+			}
+
+			msg.payload = cmd + ";";
+
+			_self.send(msg);
+
+		}
+		
+		_self.sendJsonAction = function(msg, value){
+
+			var json = { 
+				type : "action", 
+				name: petduino_action_names[_self.action] 
+			};
+			
+			if(value){
+				json.value = value;
+			}
+			
+			msg.payload = json;
+
+			_self.send(msg);
+		}
+
+		this.on("input", function(msg){
+
 			var value = _self.value;
 			
 			if(value.length == 0){
@@ -29,13 +70,13 @@ module.exports = function(RED) {
 				case 2: // Set LED
 					var intValue = parseInt(value);
 					if(!isNaN(intValue)){
-						cmd += "," + intValue;
+						value = intValue;
 					}
 					break;
 
 				// Raw
 				case 7: // Set Data
-					cmd += "," + value;
+					value = value;
 					break;
 
 				// Empty
@@ -45,12 +86,19 @@ module.exports = function(RED) {
 				case 5: // Get Temperature
 				case 6: // Get Light Level
 				default: 
+					value = undefined;
 					break;
 			}
 
-			msg.payload = cmd + ";";
+			switch(_self.format){
+				case "serial":
+					_self.sendSerialAction(msg, value);
+					break;
+				case "json":
+					_self.sendJsonAction(msg, value);
+					break;
+			}
 
-			_self.send(msg);
 		});
     }
 	

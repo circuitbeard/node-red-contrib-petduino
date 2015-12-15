@@ -20,6 +20,13 @@
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name" />
     </div>
+    <div class="form-row">
+        <label for="node-input-format"><i class="fa fa-tasks"></i> Format</label>
+        <select id="node-input-format" style="width:72%;">
+            <option value="serial">Serial</option>
+            <option value="json">JSON</option>
+        </select>
+    </div>
 	<div class="form-row">
         <label for="node-input-event"><i class="fa fa-tasks"></i> Event</label>
         <select id="node-input-event" style="width:72%;">
@@ -34,10 +41,8 @@
 </script>
 
 <script type="text/x-red" data-help-name="petduino-in">
-    <p>This node listens for the Petduino events and parses any payload values.</p>
-	<p><b>Usage</b></p>
-	<p></p>
-	<p>Select the event to be notified of from the <i>Event</i> dropdown list.<br />The <b>msg.payload</b> contains the parsed event data.<br />The <b>msg.raw</b> contains the raw event data.</p>
+    <p>This node parses incoming Petduino events and their associated values.</p>
+	<p>Select the input format from the <i>Format</i> dropdown and the event to listen for from the <i>Event</i> dropdown.<br />The <b>msg.payload</b> property contains the parsed event data.<br />The <b>msg.raw</b> property contains the raw event data.</p>
     <p>For further info see the <a href="https://circuitbeard.co.uk" target="_blank">Circuitbeard website</a>.</p>
 </script>
 
@@ -46,15 +51,16 @@
         category: 'petduino',
         defaults: {
             name: {value:""},
+            format: {value:"serial"},
 			event: {value:0, required: true}
         },
         color: "#1abc9c",
         inputs: 1,
         outputs: 1,
         icon: "arrow.png",
-        paletteLabel: "event",
+        paletteLabel: "pet-event",
         label: function() {
-            return this.name || "event";
+            return this.name || "pet-event";
         },
         labelStyle: function() {
             return this.name ? "node_label_italic": "";

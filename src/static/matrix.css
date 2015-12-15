@@ -1,0 +1,68 @@
+/* Config Styles */
+.matrix
+{
+	width: 100%;
+	height: 100%;
+	background-color: #000000;
+}
+
+.matrix__led 
+{
+ 	background: #cccccc;
+}
+
+.active .matrix__led 
+{
+ 	background: #e74c3c;
+}
+
+/* Core Styles */
+.matrix
+{
+	padding: 0.25%;
+	box-sizing: border-box;
+	-moz-user-select: none;
+  	-webkit-user-select: none;
+  	-ms-user-select: none;
+}
+
+.matrix__row 
+{
+	position: relative;
+}
+
+.matrix__row:before {
+	display: block;
+	content: "";
+	width: 100%;
+	padding-top: 12.5%; /* 1/8 */
+}
+
+.matrix__row-content
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+.matrix__cell
+{
+	position: relative;
+	display: inline-block;
+	width: 12.5%;
+ 	height: 100%;
+ 	cursor: pointer;
+}
+
+.matrix__led 
+{
+ 	display: inline-block;
+ 	background: #cccccc;
+ 	border-radius: 50%;
+ 	margin-top: 5%;
+ 	margin-left: 5%;
+ 	width: 90%;
+ 	height: 90%;
+}

@@ -1,7 +1,7 @@
 {
-  "name": "petduino-node",
+  "name": "node-red-contrib-petduino",
   "version": "0.1.0",
-  "description": "Petduino node for Node-RED",
+  "description": "Petduino nodes for Node-RED",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -17,9 +17,9 @@
   ],
   "node-red" : {
       "nodes": {
-          "petduino-in": "petduino/petduino-in.js",
-          "petduino-out": "petduino/petduino-out.js",
-          "petduino-screen": "petduino/petduino-screen.js"
+          "petduino-in": "src/petduino-in.js",
+          "petduino-out": "src/petduino-out.js",
+          "petduino-screen": "src/petduino-screen.js"
       }
   },
   "author": "Matt Brailsford aka Circuitbeard <hi@circuitbeard.co.uk> (http://circuitbeard.co.uk)",

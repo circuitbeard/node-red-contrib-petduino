@@ -15,19 +15,17 @@ Run the following command in the root directory of your Node-RED install
 
 A node to process incoming events from a Petduino and their associated values.
 
-Input can be either a serial or JSON formattd payload (serial if the Petduino is directly connected to Node-RED server, or JSON if connected to an online API).
+Input can be either a serial or JSON formatted payload *(serial if the Petduino is directly connected to Node-RED server, or JSON if connected to an online API)*, **msg.payload** containse the event payload (if any).
 
 Node will only trigger if the incoming event matches the selected event in config.
-
-**msg.payload** containers the event payload (if any).
 
 ### pet-action
 
 A node to construct a Petduino action payload.
 
-Output can be either a serial or JSON formattd payload (serial if the Petduino is directly connected to Node-RED server, or JSON if connected to an online API).
+Output can be either a serial or JSON formatted payload *(serial if the Petduino is directly connected to Node-RED server, or JSON if connected to an online API)*.
 
-On trigger the node will generate an action payload object for the selected action in config, with the configured value, or the **msg.payload** if no value is configured.
+On trigger the node will generate an action payload object for the selected action in config, with the configured value, or the **msg.payload** value if no config value is defined.
 
 ### screen
 

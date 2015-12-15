@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-petduino",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A set of Node-RED nodes for interacting with a Petduino",
   "main": "index.js",
   "scripts": {
@@ -15,12 +15,12 @@
     "petduino",
     "node-red"
   ],
-  "node-red" : {
-      "nodes": {
-          "petduino-in": "src/petduino-in.js",
-          "petduino-out": "src/petduino-out.js",
-          "petduino-screen": "src/petduino-screen.js"
-      }
+  "node-red": {
+    "nodes": {
+      "petduino-in": "src/petduino-in.js",
+      "petduino-out": "src/petduino-out.js",
+      "petduino-screen": "src/petduino-screen.js"
+    }
   },
   "author": "Matt Brailsford aka Circuitbeard <hi@circuitbeard.co.uk> (http://circuitbeard.co.uk)",
   "license": "MIT"

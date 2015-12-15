@@ -29,6 +29,6 @@ On trigger the node will generate an action payload object for the selected acti
 
 ### screen
 
-A node to design screens layouts to display on the Petduino screen.
+A node to design screen layouts to display on the Petduino screen.
 
 Click the screen LEDs on or off to define your screen layout, **msg.payload** will contain the hex encoded value.

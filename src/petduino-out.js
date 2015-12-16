@@ -2,18 +2,6 @@ module.exports = function(RED) {
 
 	var path = require('path');
 
-	var petduino_action_names = [
-		"setState",
-		"getState",
-		"setLed",
-		"toggleLed",
-		"getLed",
-		"getTemperature",
-		"getLightLevel",
-		"setData",
-		"setScreen"
-	];
-
 	function PetduinoOut(n) {
 
         RED.nodes.createNode(this,n);

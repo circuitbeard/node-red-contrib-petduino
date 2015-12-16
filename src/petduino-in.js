@@ -1,5 +1,14 @@
 module.exports = function(RED) {
 
+	var event_names = [
+		"state",
+		"led",
+		"temperature",
+		"lightLevel",
+		"btn1",
+		"btn2"
+	];
+
     function PetduinoIn(n) {
 
         RED.nodes.createNode(this,n);
@@ -22,7 +31,12 @@ module.exports = function(RED) {
 
 				if(evtParts.length > 0){
 					var evtId = parseInt(evtParts[0]);
-					if(!isNaN(evtId) && evtId === _self.event){
+					if(!isNaN(evtId) && (evtId === _self.event || _self.event === 6)) {
+
+						// Store the event name in topic
+						msg.topic = event_names[evtId];
+
+						// Parse the value
 						switch(evtId){
 
 							// Integers
@@ -55,6 +69,7 @@ module.exports = function(RED) {
 								break;
 						}
 
+						// Send the message
 						_self.send(msg);
 					}
 				}

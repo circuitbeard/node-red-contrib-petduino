@@ -16,40 +16,52 @@
 -->
 
 <script type="text/x-red" data-template-name="petduino-out">
+    <link rel="stylesheet" href="petduino/static/matrix.css" />
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name" />
     </div>
     <div class="form-row">
-        <label for="node-input-format"><i class="fa fa-tasks"></i> Format</label>
-        <select id="node-input-format" style="width:72%;">
-            <option value="serial">Serial</option>
-            <option value="json">JSON</option>
-        </select>
-    </div>
-    <div class="form-row">
         <label for="node-input-action"><i class="fa fa-tasks"></i> Action</label>
-        <select id="node-input-action" style="width:72%;">
-            <option value="0">Set State</option>
-            <option value="1">Get State</option>
-            <option value="2">Set LED</option>
-            <option value="3">Toggle LED</option>
-            <option value="4">Get LED</option>
-            <option value="5">Get Temperature</option>
-            <option value="6">Get Light Level</option>
-            <option value="7">Set Data</option>
+        <select id="node-input-action" style="width:73%;">
+            <option value="0">Change the current state</option>
+            <option value="1">Request the current state</option>
+            <option value="2">Turn on/off the LED</option>
+            <option value="3">Toggle the LED</option>
+            <option value="4">Request the current LED state</option>
+            <option value="5">Request the current temperature</option>
+            <option value="6">Request the current light level</option>
+            <option value="8">Draw to the screen</option>
+            <option value="7">Send a raw data message</option>
         </select>
     </div>
-	<div class="form-row">
-        <label for="node-input-value"><i class="fa fa-tag"></i> Value</label>
-        <input type="text" id="node-input-value" placeholder="Set the value to send or leave blank to send msg.payload" />
+	<div class="form-row form-row--str" style="display: none;">
+        <label for="node-input-str" style="line-height: 30px;"><i class="fa fa-tag"></i> Value</label>
+        <input type="text" id="node-input-str" placeholder="Value" style="display: inline-block; vertical-align: top;" />
+    </div>
+    <div class="form-row form-row--mtrx" style="display: none;">
+        <label for="node-input-mtrx" style="line-height: 30px;"><i class="fa fa-tag"></i> Value</label>
+        <div style="width: 70%; display: inline-block; vertical-align: top;">
+            <input type="hidden" id="node-input-mtrx" placeholder="Value" />
+        </div>
+    </div>
+    <div class="form-tips form-tips--int" style="margin-left: 100px; width: 70%;">
+        <i class="fa fa-info-circle"></i> Set to an integer value or leave blank to use <b>msg.payload</b>
+    </div>
+    <div class="form-tips form-tips--bool" style="margin-left: 100px; width: 70%;">
+        <i class="fa fa-info-circle"></i> Set to <b>1</b> for on, or <b>0</b> for off or leave blank to use <b>msg.payload</b>
+    </div>
+    <div class="form-tips form-tips--str" style="margin-left: 100px; width: 70%;">
+        <i class="fa fa-info-circle"></i> Set a string value or leave blank to use <b>msg.payload</b>
+    </div>
+    <div class="form-tips form-tips--mtrx" style="margin-left: 100px; width: 70%;">
+        <i class="fa fa-info-circle"></i> Define the shape to draw by clicking the LEDs to turn them on or off 
     </div>
 </script>
 
 <script type="text/x-red" data-help-name="petduino-out">
-    <p>This node constructs a Petduino action payload object.</p>
-	<p>Select the output format from the <i>Format</i> dropdown and the action to broadcast from the <i>Action</i> dropdown.<br />
-    Set the <i>Value</i> input to the value you wish to broadcast, or leave blank to send the passed in <b>msg.payload</b>.</p>
+    <p>This node constructs a Petduino serial command for the selected action type with the selected value payload.</p>
+	<p>Select the action to broadcast from the <i>Action</i> dropdown, then, if required, set the <i>Value</i> you wish to broadcast, or leave blank to send the passed in <b>msg.payload</b>.</p>
     <p>For further info see the <a href="https://circuitbeard.co.uk" target="_blank">Circuitbeard website</a>.</p>
 </script>
 
@@ -57,10 +69,10 @@
     RED.nodes.registerType('petduino-out',{
         category: 'petduino',
         defaults: {
-            name: {value:""},
-            format: {value:"serial"},
+            name:   {value:""},
             action: {value:"0", required: true},
-            value: {value:"" }
+            str:    {value:"" },
+            mtrx:   {value:"" },
         },
         color: "#1abc9c",
         inputs: 1,
@@ -69,10 +81,78 @@
         align: "right",
         paletteLabel: "pet-action",
         label: function() {
-            return this.name || "pet-action";
+            return this.name || "Petduino action";
         },
         labelStyle: function() {
             return this.name ? "node_label_italic" : "";
+        },
+        oneditprepare: function(){
+
+            // Hide all inputs
+            var hideValueInputs = function(){
+
+                // Inputs
+                $(".form-row--str").hide();
+                $(".form-row--mtrx").hide();
+
+                // Tips
+                $(".form-tips--int").hide();
+                $(".form-tips--bool").hide();
+                $(".form-tips--str").hide();
+                $(".form-tips--mtrx").hide();
+
+            }
+
+            // Setup Matrix
+            var setupMatrix = function(){
+                $("#node-input-mtrx").matrix();
+            };
+
+            // Listen for action changes
+            $("#node-input-action").on('change', function(){
+
+                // Action ID
+                var val = parseInt($(this).val());
+
+                // Hide value inputs
+                hideValueInputs();
+
+                // Show value inputs by action type
+                switch(val){
+                    case 0: // State
+                        $(".form-row--str").show();
+                        $(".form-tips--int").show();
+                        break;
+
+                    case 2: // LED
+                        $(".form-row--str").show();
+                        $(".form-tips--bool").show();
+                        break;
+
+                    case 7: // Raw
+                        $(".form-row--str").show();
+                        $(".form-tips--str").show();
+                        break;
+
+                    case 8: // Screen
+                        $(".form-row--mtrx").show();
+                        $(".form-tips--mtrx").show();
+                        break;
+                }
+
+            }).trigger("change");
+
+            // Load scripts
+            console.log("loading matrix");
+            $.getScript('petduino/static/matrix.js').done(function(data, textStatus, jqxhr) {
+                console.log("creating matrix")
+                setupMatrix();
+            }).fail(function(jqxhr, settings, exception ){
+                console.log("failed to load matrix");
+                console.log(exception);
+                console.log(exception.stack);
+            });
+
         }
     });
 </script>

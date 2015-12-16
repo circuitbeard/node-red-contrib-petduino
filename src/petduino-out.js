@@ -1,5 +1,7 @@
 module.exports = function(RED) {
 
+	var path = require('path');
+
 	var petduino_action_names = [
 		"setState",
 		"getState",
@@ -8,52 +10,24 @@ module.exports = function(RED) {
 		"getLed",
 		"getTemperature",
 		"getLightLevel",
-		"setData"
+		"setData",
+		"setScreen"
 	];
 
 	function PetduinoOut(n) {
 
         RED.nodes.createNode(this,n);
 		
-		var _self 	 = this;
+		var _self 	 	= this;
 		
-		_self.format = n.format;
-		_self.action = parseInt(n.action);
-		_self.value  = n.value;
-
-		_self.sendSerialAction = function(msg, value){
-
-			var cmd   = _self.action;
-			
-			if(value){
-				cmd += "," + value;
-			}
-
-			msg.payload = cmd + ";";
-
-			_self.send(msg);
-
-		}
-		
-		_self.sendJsonAction = function(msg, value){
-
-			var json = { 
-				type : "action", 
-				name: petduino_action_names[_self.action] 
-			};
-			
-			if(value){
-				json.value = value;
-			}
-			
-			msg.payload = json;
-
-			_self.send(msg);
-		}
+		_self.action 	= parseInt(n.action);
+		_self.str  		= n.str;
+		_self.mtrx 		= n.mtrx;
 
 		this.on("input", function(msg){
 
-			var value = _self.value;
+			var cmd   = _self.action;
+			var value = _self.str;
 			
 			if(value.length == 0){
 				value = msg.payload;
@@ -70,13 +44,17 @@ module.exports = function(RED) {
 				case 2: // Set LED
 					var intValue = parseInt(value);
 					if(!isNaN(intValue)){
-						value = intValue;
+						cmd += "," + intValue;
 					}
 					break;
 
 				// Raw
 				case 7: // Set Data
-					value = value;
+					cmd += "," + value;
+					break;
+
+				case 8: // Set Screen
+					cmd = "7," + _self.mtrx;
 					break;
 
 				// Empty
@@ -86,22 +64,22 @@ module.exports = function(RED) {
 				case 5: // Get Temperature
 				case 6: // Get Light Level
 				default: 
-					value = undefined;
 					break;
 			}
+			
+			// Append the terminator char
+			msg.payload = cmd + ";";
 
-			switch(_self.format){
-				case "serial":
-					_self.sendSerialAction(msg, value);
-					break;
-				case "json":
-					_self.sendJsonAction(msg, value);
-					break;
-			}
+			// Send the message
+			_self.send(msg);
 
 		});
     }
 	
 	RED.nodes.registerType("petduino-out", PetduinoOut);
-	
+
+	RED.httpAdmin.get('/petduino/static/*', function(req, res){
+        var filename = path.join(__dirname , 'static', req.params[0]);
+        res.sendFile(filename);
+    });
 }

@@ -18,8 +18,7 @@
   "node-red": {
     "nodes": {
       "petduino-in": "src/petduino-in.js",
-      "petduino-out": "src/petduino-out.js",
-      "petduino-screen": "src/petduino-screen.js"
+      "petduino-out": "src/petduino-out.js"
     }
   },
   "author": "Matt Brailsford aka Circuitbeard <hi@circuitbeard.co.uk> (http://circuitbeard.co.uk)",

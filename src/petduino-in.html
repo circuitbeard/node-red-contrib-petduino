@@ -20,29 +20,22 @@
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name" />
     </div>
-    <div class="form-row">
-        <label for="node-input-format"><i class="fa fa-tasks"></i> Format</label>
-        <select id="node-input-format" style="width:72%;">
-            <option value="serial">Serial</option>
-            <option value="json">JSON</option>
-        </select>
-    </div>
 	<div class="form-row">
         <label for="node-input-event"><i class="fa fa-tasks"></i> Event</label>
-        <select id="node-input-event" style="width:72%;">
-			<option value="0">State</option>
-			<option value="1">LED</option>
-            <option value="2">Temperature</option>
-            <option value="3">Light Level</option>
-			<option value="4">Btn 1</option>
-            <option value="5">Btn 2</option>
+        <select id="node-input-event" style="width:73%;">
+			<option value="0">Stage changed</option>
+			<option value="1">LED changed</option>
+            <option value="2">Temperature changed</option>
+            <option value="3">Light level changed</option>
+			<option value="4">Btn 1 pressed or released</option>
+            <option value="5">Btn 2 pressed or released</option>
         </select>
     </div>
 </script>
 
 <script type="text/x-red" data-help-name="petduino-in">
-    <p>This node parses incoming Petduino events and their associated values.</p>
-	<p>Select the input format from the <i>Format</i> dropdown and the event to listen for from the <i>Event</i> dropdown.<br />The <b>msg.payload</b> property contains the parsed event data.<br />The <b>msg.raw</b> property contains the raw event data.</p>
+    <p>This node listens to a serial connection for the specified Petduino event, parsing out any associated value.</p>
+	<p>Select the event to listen for from the <i>Event</i> dropdown.<br />The <b>msg.payload</b> property contains the parsed event data.<br />The <b>msg.raw</b> property contains the raw event data.</p>
     <p>For further info see the <a href="https://circuitbeard.co.uk" target="_blank">Circuitbeard website</a>.</p>
 </script>
 
@@ -51,7 +44,6 @@
         category: 'petduino',
         defaults: {
             name: {value:""},
-            format: {value:"serial"},
 			event: {value:0, required: true}
         },
         color: "#1abc9c",
@@ -60,7 +52,7 @@
         icon: "arrow.png",
         paletteLabel: "pet-event",
         label: function() {
-            return this.name || "pet-event";
+            return this.name || "Petduino event";
         },
         labelStyle: function() {
             return this.name ? "node_label_italic": "";

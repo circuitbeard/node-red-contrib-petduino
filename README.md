@@ -15,12 +15,12 @@ Run the following command in the root directory of your Node-RED install
 
 A node that listens to a serial connection for a specified Petduino event, parsing out any associated value.
 
-![Screenshot1](https://cdn.rawgit.com/circuitbeard/node-red-contrib-petduino/master/assets/screenshot01_01.png) 
+![Screenshot1](https://cdn.rawgit.com/circuitbeard/node-red-contrib-petduino/607b9ecf4be9d06e407a4c2d9c1ae1885d18e8f6/assets/screenshot01_01.PNG) 
 
 _**Caption:** pet-event settings dialog_
 
 
-![Screenshot2](https://cdn.rawgit.com/circuitbeard/node-red-contrib-petduino/master/assets/screenshot01.png)
+![Screenshot2](https://cdn.rawgit.com/circuitbeard/node-red-contrib-petduino/607b9ecf4be9d06e407a4c2d9c1ae1885d18e8f6/assets/screenshot01.PNG)
 
 _**Caption:** example of correct wiring of the pet-event node to an incoming serial node_
 
@@ -28,14 +28,14 @@ _**Caption:** example of correct wiring of the pet-event node to an incoming ser
 
 A node to construct a Petduino serial command of the specified action type with the specified value payload.
 
-![Screenshot3](https://cdn.rawgit.com/circuitbeard/node-red-contrib-petduino/master/assets/screenshot02_01.png)
+![Screenshot3](https://cdn.rawgit.com/circuitbeard/node-red-contrib-petduino/607b9ecf4be9d06e407a4c2d9c1ae1885d18e8f6/assets/screenshot02_01.PNG)
 
 _**Caption:** pet-action settings dialog defining a state change action_
 
-![Screenshot4](https://cdn.rawgit.com/circuitbeard/node-red-contrib-petduino/master/assets/screenshot02_02.png)
+![Screenshot4](https://cdn.rawgit.com/circuitbeard/node-red-contrib-petduino/607b9ecf4be9d06e407a4c2d9c1ae1885d18e8f6/assets/screenshot02_02.PNG)
 
 _**Caption:** pet-action settings dialog defining a screen layout to draw to the Petduino screen_
 
-![Screenshot5](https://cdn.rawgit.com/circuitbeard/node-red-contrib-petduino/master/assets/screenshot02.png)
+![Screenshot5](https://cdn.rawgit.com/circuitbeard/node-red-contrib-petduino/607b9ecf4be9d06e407a4c2d9c1ae1885d18e8f6/assets/screenshot02.PNG)
 
 _**Caption:** example of correct wiring of the pet-action node to an outgoing serial node_

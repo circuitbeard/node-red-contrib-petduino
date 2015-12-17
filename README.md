@@ -15,27 +15,27 @@ Run the following command in the root directory of your Node-RED install
 
 A node that listens to a serial connection for a specified Petduino event, parsing out any associated value.
 
-![](assets/screenshot01_01.png) 
+![Screenshot1](https://cdn.rawgit.com/circuitbeard/node-red-contrib-petduino/master/assets/screenshot01_01.png) 
 
-***Caption:** pet-event settings dialog*
+_**Caption:** pet-event settings dialog_
 
 
-![](assets/screenshot01.png)
+![Screenshot2](https://cdn.rawgit.com/circuitbeard/node-red-contrib-petduino/master/assets/screenshot01.png)
 
-***Caption:** example of correct wiring of the pet-event node to an incoming serial node*
+_**Caption:** example of correct wiring of the pet-event node to an incoming serial node_
 
 ### pet-action
 
 A node to construct a Petduino serial command of the specified action type with the specified value payload.
 
-![](assets/screenshot02_01.png)
+![Screenshot3](https://cdn.rawgit.com/circuitbeard/node-red-contrib-petduino/master/assets/screenshot02_01.png)
 
-***Caption:** pet-action settings dialog defining a state change action*
+_**Caption:** pet-action settings dialog defining a state change action_
 
-![](assets/screenshot02_02.png)
+![Screenshot4](https://cdn.rawgit.com/circuitbeard/node-red-contrib-petduino/master/assets/screenshot02_02.png)
 
-***Caption:** pet-action settings dialog defining a screen layout to draw to the Petduino screen*
+_**Caption:** pet-action settings dialog defining a screen layout to draw to the Petduino screen_
 
-![](assets/screenshot02.png)
+![Screenshot5](https://cdn.rawgit.com/circuitbeard/node-red-contrib-petduino/master/assets/screenshot02.png)
 
-***Caption:** example of correct wiring of the pet-action node to an outgoing serial node*
+_**Caption:** example of correct wiring of the pet-action node to an outgoing serial node_
